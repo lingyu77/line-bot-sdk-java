@@ -337,19 +337,16 @@ public class KitchenSinkController {
         );
     }
 
-    private void handleTextContent(String replyToken, Event event, TextMessageContent content)
-            throws Exception {
+    private void handleTextContent(final String replyToken, final Event event, final TextMessageContent content) throws Exception {
         final String text = content.getText();
-
-        log.info("Got text message from replyToken:{}: text:{} emojis:{}", replyToken, text,
-                 content.getEmojis());
+        log.info("Got text message from replyToken:{}: text:{} emojis:{}", replyToken, text, content.getEmojis());
         switch (text) {
             case "profile": {
-                log.info("Invoking 'profile' command: source:{}",
-                         event.getSource());
+                log.info("Invoking 'profile' command: source:{}", event.getSource());
                 final String userId = event.getSource().getUserId();
                 if (userId != null) {
                     if (event.getSource() instanceof GroupSource) {
+                        log.info("Invoking GroupSource {}", event.getSource());
                         lineMessagingClient
                                 .getGroupMemberProfile(((GroupSource) event.getSource()).getGroupId(), userId)
                                 .whenComplete((profile, throwable) -> {
@@ -368,6 +365,7 @@ public class KitchenSinkController {
                                     );
                                 });
                     } else {
+                        log.info("Invoking NOT GroupSource {}", event.getSource());
                         lineMessagingClient
                                 .getProfile(userId)
                                 .whenComplete((profile, throwable) -> {
@@ -387,6 +385,7 @@ public class KitchenSinkController {
                                 });
                     }
                 } else {
+                    log.error("No user id");
                     this.replyText(replyToken, "Bot can't use profile API without user ID");
                 }
                 break;
@@ -628,6 +627,22 @@ public class KitchenSinkController {
                                                     .iconUrl(createUri("/static/icon/cat.png"))
                                                     .build())
                                       .build());
+                break;
+            case "哥":
+                this.reply(replyToken,
+                        TextMessage.builder()
+                                .text("你要做什麼?")
+                                .sender(Sender.builder()
+                                        .name("Cat")
+                                        .iconUrl(createUri("/static/icon/cat.png"))
+                                        .build())
+                                .build());
+                break;
+            case "陳晏":
+                this.reply(replyToken,
+                        TextMessage.builder()
+                                .text("老大 我要吃油加利樹葉")
+                                .build());
                 break;
             default:
                 log.info("Returns echo message {}: {}", replyToken, text);
