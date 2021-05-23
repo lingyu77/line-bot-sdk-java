@@ -120,110 +120,115 @@ public class KitchenSinkController {
 
     @EventMapping
     public void handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
-        handleSticker(event.getReplyToken(), event.getMessage());
+        log.info("handleStickerMessageEvent: {} ", event);
+        //handleSticker(event.getReplyToken(), event.getMessage());
     }
 
     @EventMapping
     public void handleLocationMessageEvent(MessageEvent<LocationMessageContent> event) {
-        LocationMessageContent locationMessage = event.getMessage();
-        reply(event.getReplyToken(), new LocationMessage(
-                locationMessage.getTitle(),
-                locationMessage.getAddress(),
-                locationMessage.getLatitude(),
-                locationMessage.getLongitude()
-        ));
+        log.info("handleLocationMessageEvent: {} ", event);
+//        LocationMessageContent locationMessage = event.getMessage();
+//        reply(event.getReplyToken(), new LocationMessage(
+//                locationMessage.getTitle(),
+//                locationMessage.getAddress(),
+//                locationMessage.getLatitude(),
+//                locationMessage.getLongitude()
+//        ));
     }
 
     @EventMapping
     public void handleImageMessageEvent(MessageEvent<ImageMessageContent> event) throws IOException {
+        log.info("handleImageMessageEvent: {} ", event);
         // You need to install ImageMagick
-        handleHeavyContent(
-                event.getReplyToken(),
-                event.getMessage().getId(),
-                responseBody -> {
-                    final ContentProvider provider = event.getMessage().getContentProvider();
-                    final DownloadedContent jpg;
-                    final DownloadedContent previewImg;
-                    if (provider.isExternal()) {
-                        jpg = new DownloadedContent(null, provider.getOriginalContentUrl());
-                        previewImg = new DownloadedContent(null, provider.getPreviewImageUrl());
-                    } else {
-                        jpg = saveContent("jpg", responseBody);
-                        previewImg = createTempFile("jpg");
-                        system(
-                                "convert",
-                                "-resize", "240x",
-                                jpg.path.toString(),
-                                previewImg.path.toString());
-                    }
-                    reply(event.getReplyToken(),
-                          new ImageMessage(jpg.getUri(), previewImg.getUri()));
-                });
+//        handleHeavyContent(
+//                event.getReplyToken(),
+//                event.getMessage().getId(),
+//                responseBody -> {
+//                    final ContentProvider provider = event.getMessage().getContentProvider();
+//                    final DownloadedContent jpg;
+//                    final DownloadedContent previewImg;
+//                    if (provider.isExternal()) {
+//                        jpg = new DownloadedContent(null, provider.getOriginalContentUrl());
+//                        previewImg = new DownloadedContent(null, provider.getPreviewImageUrl());
+//                    } else {
+//                        jpg = saveContent("jpg", responseBody);
+//                        previewImg = createTempFile("jpg");
+//                        system(
+//                                "convert",
+//                                "-resize", "240x",
+//                                jpg.path.toString(),
+//                                previewImg.path.toString());
+//                    }
+//                    reply(event.getReplyToken(),
+//                          new ImageMessage(jpg.getUri(), previewImg.getUri()));
+//                });
     }
 
     @EventMapping
     public void handleAudioMessageEvent(MessageEvent<AudioMessageContent> event) throws IOException {
-        handleHeavyContent(
-                event.getReplyToken(),
-                event.getMessage().getId(),
-                responseBody -> {
-                    final ContentProvider provider = event.getMessage().getContentProvider();
-                    final DownloadedContent mp4;
-                    if (provider.isExternal()) {
-                        mp4 = new DownloadedContent(null, provider.getOriginalContentUrl());
-                    } else {
-                        mp4 = saveContent("mp4", responseBody);
-                    }
-                    reply(event.getReplyToken(), new AudioMessage(mp4.getUri(), 100));
-                });
+        log.info("handleAudioMessageEvent: {} ", event);
+//        handleHeavyContent(
+//                event.getReplyToken(),
+//                event.getMessage().getId(),
+//                responseBody -> {
+//                    final ContentProvider provider = event.getMessage().getContentProvider();
+//                    final DownloadedContent mp4;
+//                    if (provider.isExternal()) {
+//                        mp4 = new DownloadedContent(null, provider.getOriginalContentUrl());
+//                    } else {
+//                        mp4 = saveContent("mp4", responseBody);
+//                    }
+//                    reply(event.getReplyToken(), new AudioMessage(mp4.getUri(), 100));
+//                });
     }
 
     @EventMapping
     public void handleVideoMessageEvent(MessageEvent<VideoMessageContent> event) throws IOException {
         log.info("Got video message: duration={}ms", event.getMessage().getDuration());
 
-        // You need to install ffmpeg and ImageMagick.
-        handleHeavyContent(
-                event.getReplyToken(),
-                event.getMessage().getId(),
-                responseBody -> {
-                    final ContentProvider provider = event.getMessage().getContentProvider();
-                    final DownloadedContent mp4;
-                    final DownloadedContent previewImg;
-                    if (provider.isExternal()) {
-                        mp4 = new DownloadedContent(null, provider.getOriginalContentUrl());
-                        previewImg = new DownloadedContent(null, provider.getPreviewImageUrl());
-                    } else {
-                        mp4 = saveContent("mp4", responseBody);
-                        previewImg = createTempFile("jpg");
-                        system("convert",
-                               mp4.path + "[0]",
-                               previewImg.path.toString());
-                    }
-                    String trackingId = UUID.randomUUID().toString();
-                    log.info("Sending video message with trackingId={}", trackingId);
-                    reply(event.getReplyToken(),
-                          VideoMessage.builder()
-                                      .originalContentUrl(mp4.getUri())
-                                      .previewImageUrl(previewImg.uri)
-                                      .trackingId(trackingId)
-                                      .build());
-                });
+//        // You need to install ffmpeg and ImageMagick.
+//        handleHeavyContent(
+//                event.getReplyToken(),
+//                event.getMessage().getId(),
+//                responseBody -> {
+//                    final ContentProvider provider = event.getMessage().getContentProvider();
+//                    final DownloadedContent mp4;
+//                    final DownloadedContent previewImg;
+//                    if (provider.isExternal()) {
+//                        mp4 = new DownloadedContent(null, provider.getOriginalContentUrl());
+//                        previewImg = new DownloadedContent(null, provider.getPreviewImageUrl());
+//                    } else {
+//                        mp4 = saveContent("mp4", responseBody);
+//                        previewImg = createTempFile("jpg");
+//                        system("convert",
+//                               mp4.path + "[0]",
+//                               previewImg.path.toString());
+//                    }
+//                    String trackingId = UUID.randomUUID().toString();
+//                    log.info("Sending video message with trackingId={}", trackingId);
+//                    reply(event.getReplyToken(),
+//                          VideoMessage.builder()
+//                                      .originalContentUrl(mp4.getUri())
+//                                      .previewImageUrl(previewImg.uri)
+//                                      .trackingId(trackingId)
+//                                      .build());
+//                });
     }
 
     @EventMapping
     public void handleVideoPlayCompleteEvent(VideoPlayCompleteEvent event) throws IOException {
         log.info("Got video play complete: tracking id={}", event.getVideoPlayComplete().getTrackingId());
-        this.replyText(event.getReplyToken(),
-                       "You played " + event.getVideoPlayComplete().getTrackingId());
+//        this.replyText(event.getReplyToken(),
+//                       "You played " + event.getVideoPlayComplete().getTrackingId());
     }
 
     @EventMapping
     public void handleFileMessageEvent(MessageEvent<FileMessageContent> event) {
-        this.reply(event.getReplyToken(),
-                   new TextMessage(String.format("Received '%s'(%d bytes)",
-                                                 event.getMessage().getFileName(),
-                                                 event.getMessage().getFileSize())));
+        log.info("handleFileMessageEvent: {} ", event);
+//        this.reply(event.getReplyToken(),
+//                   new TextMessage(String.format("Received '%s'(%d bytes)",
+//                                                 event.getMessage().getFileName(),
+//                                                 event.getMessage().getFileSize())));
     }
 
     @EventMapping
@@ -238,14 +243,15 @@ public class KitchenSinkController {
 
     @EventMapping
     public void handleFollowEvent(FollowEvent event) {
-        String replyToken = event.getReplyToken();
-        this.replyText(replyToken, "Got followed event");
+        log.info("handleFollowEvent: {} ", event);
+//        String replyToken = event.getReplyToken();
+//        this.replyText(replyToken, "Got followed event");
     }
 
     @EventMapping
     public void handleJoinEvent(JoinEvent event) {
-        String replyToken = event.getReplyToken();
-        log.info("Joined {}", event.getSource());
+//        String replyToken = event.getReplyToken();
+      log.info("Joined {}", event.getSource());
     }
 
     @EventMapping
@@ -264,10 +270,11 @@ public class KitchenSinkController {
 
     @EventMapping
     public void handleMemberJoined(MemberJoinedEvent event) {
-        String replyToken = event.getReplyToken();
-        this.replyText(replyToken, "Got memberJoined message " + event.getJoined().getMembers()
-                                                                      .stream().map(Source::getUserId)
-                                                                      .collect(Collectors.joining(",")));
+        log.info("handleMemberJoined {}", event);
+//        String replyToken = event.getReplyToken();
+//        this.replyText(replyToken, "Got memberJoined message " + event.getJoined().getMembers()
+//                                                                      .stream().map(Source::getUserId)
+//                                                                      .collect(Collectors.joining(",")));
     }
 
     @EventMapping
