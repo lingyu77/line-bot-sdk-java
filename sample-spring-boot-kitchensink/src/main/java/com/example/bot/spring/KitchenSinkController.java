@@ -416,19 +416,19 @@ public class KitchenSinkController {
 //                }
 //                break;
 //            }
-//            case "byetaohelper": {
-//                Source source = event.getSource();
-//                if (source instanceof GroupSource) {
-//                    this.replyText(replyToken, "Leaving group");
-//                    lineMessagingClient.leaveGroup(((GroupSource) source).getGroupId()).get();
-//                } else if (source instanceof RoomSource) {
-//                    this.replyText(replyToken, "Leaving room");
-//                    lineMessagingClient.leaveRoom(((RoomSource) source).getRoomId()).get();
-//                } else {
-//                    this.replyText(replyToken, "Bot can't leave from 1:1 chat");
-//                }
-//                break;
-//            }
+            case "byetaohelper": {
+                Source source = event.getSource();
+                if (source instanceof GroupSource) {
+                    this.replyText(replyToken, "Leaving group");
+                    lineMessagingClient.leaveGroup(((GroupSource) source).getGroupId()).get();
+                } else if (source instanceof RoomSource) {
+                    this.replyText(replyToken, "Leaving room");
+                    lineMessagingClient.leaveRoom(((RoomSource) source).getRoomId()).get();
+                } else {
+                    this.replyText(replyToken, "Bot can't leave from 1:1 chat");
+                }
+                break;
+            }
 //            case "group_summary": {
 //                Source source = event.getSource();
 //                if (source instanceof GroupSource) {
