@@ -14,8 +14,8 @@
 # under the License.
 
 line.bot:
-  channel-token: 'BTpTWk5F2+C0KmDNQTUG36r77zreIoVuaxLkgA+vTiZ2Fnep+B8LZud8UhLFdSfh13DeFl2+TyRdbEcJV/a5GXHnjjj2DRYH7QvDZHXUbaUQXliX23iNrBmzme3DkIdU9CIxON2r6/IoF5IRu160ZwdB04t89/1O/w1cDnyilFU='
-  channel-secret: '694de3de3492b74ecc698c2e7eae6747'
+  channel-token: 'rIvOr08grc4V2ynsZSUy3xkdf6Vt9QyUeGFWAHaJ6fksusQOgonAa4J5otxtPm6QsMauywkpi3SWL3syFA8qdjp3mljJYugj+gmzEmIvVHr5w6wehwthD1UgMVM4THaBIloTXDojqL+M85scN5zDRwdB04t89/1O/w1cDnyilFU='
+  channel-secret: 'bb956c0be3f99962d4592302b1fa18a5'
   handler.path: /callback
 
 # To remove Client wire logs. Please comment out following lines.
