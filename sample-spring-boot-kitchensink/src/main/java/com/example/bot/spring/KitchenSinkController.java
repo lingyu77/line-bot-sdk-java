@@ -28,7 +28,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
@@ -367,6 +370,14 @@ public class KitchenSinkController {
         final String text = content.getText();
         log.info("Got text message from replyToken:{}: text:{} emojis:{}", replyToken, text, content.getEmojis());
         switch (text) {
+            case "運動": {
+                String packageId = "";
+                String stickerId = "";
+                getSportResponse(packageId, stickerId);
+                log.info("sport : packageId {}: stickerId:{}", packageId, stickerId);
+                reply(replyToken, new StickerMessage(packageId, stickerId));
+                break;
+            }
             case "byetaohelper": {
                 Source source = event.getSource();
                 if (source instanceof GroupSource) {
@@ -433,5 +444,31 @@ public class KitchenSinkController {
     private static class DownloadedContent {
         Path path;
         URI uri;
+    }
+
+    private void getSportResponse(String packageId, String stickerId) {
+
+        Random rand = new Random();
+        int upperbound = 4;
+        //generate random values from 0-3
+        int random = rand.nextInt(upperbound);
+        switch (random) {
+            case 0:
+                packageId = "6362";
+                stickerId = "11087933";
+                break;
+            case 1:
+                packageId = "6362";
+                stickerId = "11087942";
+                break;
+            case 2:
+                packageId = "446";
+                stickerId = "1989";
+                break;
+            case 3:
+                packageId = "446";
+                stickerId = "2000";
+                break;
+        }
     }
 }
