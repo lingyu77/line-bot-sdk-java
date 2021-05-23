@@ -271,10 +271,32 @@ public class KitchenSinkController {
     @EventMapping
     public void handleMemberJoined(MemberJoinedEvent event) {
         log.info("handleMemberJoined {}", event);
-//        String replyToken = event.getReplyToken();
+        final String replyToken = event.getReplyToken();
 //        this.replyText(replyToken, "Got memberJoined message " + event.getJoined().getMembers()
 //                                                                      .stream().map(Source::getUserId)
 //                                                                      .collect(Collectors.joining(",")));
+//                                                                      .stream().map(Source::getUserId)
+        event.getJoined().getMembers().stream().map(Source::getUserId).forEach(
+            userId -> {
+                if (userId != null) {
+                    if (event.getSource() instanceof GroupSource) {
+                        lineMessagingClient
+                                .getGroupMemberProfile(((GroupSource) event.getSource()).getGroupId(), userId)
+                                .whenComplete((profile, throwable) -> {
+                                    if (throwable != null) {
+                                        this.replyText(replyToken, throwable.getMessage());
+                                        return;
+                                    }
+
+                                    this.reply(replyToken,
+                                            TextMessage.builder()
+                                                    .text( profile.getDisplayName() + " 歡迎您加入防疫團!")
+                                                    .build());
+                                });
+                    }
+                }
+            }
+        );
     }
 
     @EventMapping
