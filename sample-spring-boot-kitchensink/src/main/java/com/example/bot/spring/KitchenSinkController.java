@@ -269,13 +269,10 @@ public class KitchenSinkController {
     }
 
     @EventMapping
-    public void handleMemberJoined(MemberJoinedEvent event) {
+    public void handleMemberJoined(final MemberJoinedEvent event) {
         log.info("handleMemberJoined {}", event);
         final String replyToken = event.getReplyToken();
-//        this.replyText(replyToken, "Got memberJoined message " + event.getJoined().getMembers()
-//                                                                      .stream().map(Source::getUserId)
-//                                                                      .collect(Collectors.joining(",")));
-//                                                                      .stream().map(Source::getUserId)
+
         event.getJoined().getMembers().stream().map(Source::getUserId).forEach(
             userId -> {
                 if (userId != null) {
@@ -657,28 +654,24 @@ public class KitchenSinkController {
 //                                                    .build())
 //                                      .build());
 //                break;
-            case "哥":
-                this.reply(replyToken,
-                        TextMessage.builder()
-                                .text("你要做什麼?")
-                                .sender(Sender.builder()
-                                        .name("Cat")
-                                        .iconUrl(createUri("/static/icon/cat.png"))
-                                        .build())
-                                .build());
-                break;
-            case "陳晏":
-                this.reply(replyToken,
-                        TextMessage.builder()
-                                .text("老大 我要吃油加利樹葉")
-                                .build());
-                break;
+//            case "哥":
+//                this.reply(replyToken,
+//                        TextMessage.builder()
+//                                .text("你要做什麼?")
+//                                .sender(Sender.builder()
+//                                        .name("Cat")
+//                                        .iconUrl(createUri("/static/icon/cat.png"))
+//                                        .build())
+//                                .build());
+//                break;
+//            case "陳晏":
+//                this.reply(replyToken,
+//                        TextMessage.builder()
+//                                .text("老大 我要吃油加利樹葉")
+//                                .build());
+//                break;
             default:
-                log.info("Returns echo message {}: {}", replyToken, text);
-                this.replyText(
-                        replyToken,
-                        text
-                );
+                log.info("Unknown message {}: {}", replyToken, text);
                 break;
         }
     }
