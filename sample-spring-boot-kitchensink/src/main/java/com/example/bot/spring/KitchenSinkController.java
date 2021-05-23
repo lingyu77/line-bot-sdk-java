@@ -373,7 +373,28 @@ public class KitchenSinkController {
             case "運動": {
                 String packageId = "";
                 String stickerId = "";
-                getSportResponse(packageId, stickerId);
+                Random rand = new Random();
+                int upperbound = 4;
+                //generate random values from 0-3
+                int random = rand.nextInt(upperbound);
+                switch (random) {
+                    case 0:
+                        packageId = "6362";
+                        stickerId = "11087933";
+                        break;
+                    case 1:
+                        packageId = "6362";
+                        stickerId = "11087942";
+                        break;
+                    case 2:
+                        packageId = "446";
+                        stickerId = "1989";
+                        break;
+                    default:
+                        packageId = "446";
+                        stickerId = "2000";
+                        break;
+                }
                 log.info("sport : packageId {}: stickerId:{}", packageId, stickerId);
                 reply(replyToken, new StickerMessage(packageId, stickerId));
                 break;
@@ -444,31 +465,5 @@ public class KitchenSinkController {
     private static class DownloadedContent {
         Path path;
         URI uri;
-    }
-
-    private void getSportResponse(String packageId, String stickerId) {
-
-        Random rand = new Random();
-        int upperbound = 4;
-        //generate random values from 0-3
-        int random = rand.nextInt(upperbound);
-        switch (random) {
-            case 0:
-                packageId = "6362";
-                stickerId = "11087933";
-                break;
-            case 1:
-                packageId = "6362";
-                stickerId = "11087942";
-                break;
-            case 2:
-                packageId = "446";
-                stickerId = "1989";
-                break;
-            case 3:
-                packageId = "446";
-                stickerId = "2000";
-                break;
-        }
     }
 }
