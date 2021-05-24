@@ -290,7 +290,7 @@ public class KitchenSinkController {
 
                                     this.reply(replyToken,
                                             TextMessage.builder()
-                                                    .text( profile.getDisplayName() + " 歡迎您加入防疫團!")
+                                                    .text( profile.getDisplayName() + " 歡迎您加入防疫團! 相關公告請至記事本觀看喔")
                                                     .build());
                                 });
                     }
