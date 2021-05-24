@@ -369,12 +369,18 @@ public class KitchenSinkController {
 
     private void handleTextContent(final String replyToken, final Event event, final TextMessageContent content) throws Exception {
         final String text = content.getText();
+        int item = 0;
+        if (text.contains("運動")) {
+            item = 1;
+        } else if (text.equals("byetaohelper")) {
+            item = 999;
+        } else if (text.contains("testEcho")) {
+            item = 2;
+        }
+
         log.info("Got text message from replyToken:{}: text:{} emojis:{}", replyToken, text, content.getEmojis());
-        switch (text) {
-            case "testText": {
-                break;
-            }
-            case "運動": {
+        switch (item) {
+            case 1: {
                 String packageId = "";
                 String stickerId = "";
                 Random rand = new Random();
@@ -403,7 +409,7 @@ public class KitchenSinkController {
                 reply(replyToken, new StickerMessage(packageId, stickerId));
                 break;
             }
-            case "byetaohelper": {
+            case 999: {
                 Source source = event.getSource();
                 if (source instanceof GroupSource) {
                     this.replyText(replyToken, "Leaving group");
@@ -416,7 +422,7 @@ public class KitchenSinkController {
                 }
                 break;
             }
-            case "testEcho" :
+            case 2 :
                 log.info("Returns echo message {}: {}", replyToken, text);
                 this.replyText(replyToken, text);
                 break;
