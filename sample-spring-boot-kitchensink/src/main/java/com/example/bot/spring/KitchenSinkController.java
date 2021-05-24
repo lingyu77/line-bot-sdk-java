@@ -384,7 +384,7 @@ public class KitchenSinkController {
                 String packageId = "";
                 String stickerId = "";
                 Random rand = new Random();
-                int upperbound = 4;
+                int upperbound = 12;
                 //generate random values from 0-3
                 int random = rand.nextInt(upperbound);
                 switch (random) {
@@ -399,6 +399,38 @@ public class KitchenSinkController {
                     case 2:
                         packageId = "446";
                         stickerId = "1989";
+                        break;
+                    case 3:
+                        packageId = "446";
+                        stickerId = "1993";
+                        break;
+                    case 4:
+                        packageId = "8522";
+                        stickerId = "16581276";
+                        break;
+                    case 5:
+                        packageId = "8525";
+                        stickerId = "16581302";
+                        break;
+                    case 6:
+                        packageId = "11537";
+                        stickerId = "52002735";
+                        break;
+                    case 7:
+                        packageId = "11537";
+                        stickerId = "52002752";
+                        break;
+                    case 8:
+                        packageId = "11538";
+                        stickerId = "51626498";
+                        break;
+                    case 9:
+                        packageId = "11538";
+                        stickerId = "51626501";
+                        break;
+                    case 10:
+                        packageId = "11539";
+                        stickerId = "52114117";
                         break;
                     default:
                         packageId = "446";
