@@ -37,6 +37,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import com.linecorp.bot.model.message.flex.component.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -370,6 +371,9 @@ public class KitchenSinkController {
         final String text = content.getText();
         log.info("Got text message from replyToken:{}: text:{} emojis:{}", replyToken, text, content.getEmojis());
         switch (text) {
+            case "testText": {
+                break;
+            }
             case "運動": {
                 String packageId = "";
                 String stickerId = "";
@@ -412,6 +416,10 @@ public class KitchenSinkController {
                 }
                 break;
             }
+            case "testEcho" :
+                log.info("Returns echo message {}: {}", replyToken, text);
+                this.replyText(replyToken, text);
+                break;
             default:
                 log.info("Unknown message {}", text);
                 break;
