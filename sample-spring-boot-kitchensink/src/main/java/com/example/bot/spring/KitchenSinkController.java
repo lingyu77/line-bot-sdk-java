@@ -64,7 +64,9 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -84,7 +86,20 @@ public class KitchenSinkController {
 
     private static List<String> sentence = new ArrayList<>(
             Arrays.asList(" 很棒喔! 第一天啟動了，要繼續維持下去!", " 好的開始，是成功的一半! 加油!", " Well begun is half done. GO! GO!"));
-    ;;
+
+    private static Map<String, String> nickname = new HashMap<String, String>() {{
+        put("ichih", "學長");
+        put("葉靜芬", "葉講師");
+        put("溶", "書溶");
+        put("新芳", "祁講師");
+        put("sophia 真 楊講師", "楊講師");
+        put("鄭鴻儒", "鴻儒");
+        put("Joyce 螢軒", "螢軒");
+        put("吳佳鴻", "佳鴻");
+        put("Shih When 王施雯", "施雯");
+        put("楊佩儒", "佩儒");
+        put("陳勁源", "勁源");
+    }};
 
     @EventMapping
     public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
@@ -348,10 +363,105 @@ public class KitchenSinkController {
             item = 2;
         } else if (text.contains("D1")) {
             item = 3;
+        } else if (text.contains("小道親")) {
+            if (text.contains("早安~")) {
+                item = 4;
+            } else if (text.contains("晚安囉")) {
+                item = 5;
+            } else if (text.contains("厲害") || text.contains("好棒")  || text.contains("讚")) {
+                item = 6;
+            }
+        } else if (text.contains("D30") || text.contains("D 30") || text.contains("d30") && text.contains("分鐘")) {
+            item = 30;
         }
 
         log.info("Got text message from replyToken:{}: text:{} emojis:{}", replyToken, text, content.getEmojis());
         switch (item) {
+            case 30:
+            {
+                final String userId = event.getSource().getUserId();
+                if (userId != null) {
+                    if (event.getSource() instanceof GroupSource) {
+                        lineMessagingClient
+                                .getGroupMemberProfile(((GroupSource) event.getSource()).getGroupId(), userId)
+                                .whenComplete((profile, throwable) -> {
+                                    if (throwable != null) {
+                                        this.replyText(replyToken, throwable.getMessage());
+                                        return;
+                                    }
+
+                                    this.reply(replyToken,
+                                            TextMessage.builder()
+                                                    .text(this.getNickname(profile.getDisplayName()) + " 棒棒! 堅持30天，完成目標了")
+                                                    .build());
+                                });
+                    }
+                }
+                break;
+            }
+            case 4 : {
+                final String userId = event.getSource().getUserId();
+                if (userId != null) {
+                    if (event.getSource() instanceof GroupSource) {
+                        lineMessagingClient
+                                .getGroupMemberProfile(((GroupSource) event.getSource()).getGroupId(), userId)
+                                .whenComplete((profile, throwable) -> {
+                                    if (throwable != null) {
+                                        this.replyText(replyToken, throwable.getMessage());
+                                        return;
+                                    }
+
+                                    this.reply(replyToken,
+                                            TextMessage.builder()
+                                                    .text(this.getNickname(profile.getDisplayName()) + " 早安 ")
+                                                    .build());
+                                });
+                    }
+                }
+                break;
+            }
+            case 5:{
+                final String userId = event.getSource().getUserId();
+                if (userId != null) {
+                    if (event.getSource() instanceof GroupSource) {
+                        lineMessagingClient
+                                .getGroupMemberProfile(((GroupSource) event.getSource()).getGroupId(), userId)
+                                .whenComplete((profile, throwable) -> {
+                                    if (throwable != null) {
+                                        this.replyText(replyToken, throwable.getMessage());
+                                        return;
+                                    }
+
+                                    this.reply(replyToken,
+                                            TextMessage.builder()
+                                                    .text(this.getNickname(profile.getDisplayName()) + " 晚安 ")
+                                                    .build());
+                                });
+                    }
+                }
+                break;
+            }
+            case 6:{
+                final String userId = event.getSource().getUserId();
+                if (userId != null) {
+                    if (event.getSource() instanceof GroupSource) {
+                        lineMessagingClient
+                                .getGroupMemberProfile(((GroupSource) event.getSource()).getGroupId(), userId)
+                                .whenComplete((profile, throwable) -> {
+                                    if (throwable != null) {
+                                        this.replyText(replyToken, throwable.getMessage());
+                                        return;
+                                    }
+
+                                    this.reply(replyToken,
+                                            TextMessage.builder()
+                                                    .text(this.getNickname(profile.getDisplayName()) + " 謝謝您的稱讚! 小道親會隨時在防疫團為大家打氣的 (握拳) ")
+                                                    .build());
+                                });
+                    }
+                }
+                break;
+            }
             case 1: {
                 String packageId = "";
                 String stickerId = "";
@@ -444,7 +554,7 @@ public class KitchenSinkController {
 
                                     this.reply(replyToken,
                                             TextMessage.builder()
-                                                    .text(profile.getDisplayName() + getBeginning())
+                                                    .text(this.getNickname(profile.getDisplayName()) + getBeginning())
                                                     .build());
                                 });
                     }
@@ -512,5 +622,9 @@ public class KitchenSinkController {
         int random = rand.nextInt(upperbound);
 
         return sentence.get(random);
+    }
+
+    private String getNickname(final String displayName) {
+        return nickname.getOrDefault(displayName, displayName);
     }
 }
