@@ -16,41 +16,11 @@
 
 package com.example.bot.spring;
 
-import static java.util.Collections.singletonList;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.UncheckedIOException;
-import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.ExecutionException;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-
-import com.linecorp.bot.model.message.flex.component.Text;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import com.google.common.io.ByteStreams;
-
 import com.linecorp.bot.client.LineBlobClient;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.ReplyMessage;
-import com.linecorp.bot.model.action.DatetimePickerAction;
-import com.linecorp.bot.model.action.MessageAction;
-import com.linecorp.bot.model.action.PostbackAction;
-import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.event.BeaconEvent;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.FollowEvent;
@@ -64,7 +34,6 @@ import com.linecorp.bot.model.event.UnknownEvent;
 import com.linecorp.bot.model.event.UnsendEvent;
 import com.linecorp.bot.model.event.VideoPlayCompleteEvent;
 import com.linecorp.bot.model.event.message.AudioMessageContent;
-import com.linecorp.bot.model.event.message.ContentProvider;
 import com.linecorp.bot.model.event.message.FileMessageContent;
 import com.linecorp.bot.model.event.message.ImageMessageContent;
 import com.linecorp.bot.model.event.message.LocationMessageContent;
@@ -74,38 +43,35 @@ import com.linecorp.bot.model.event.message.VideoMessageContent;
 import com.linecorp.bot.model.event.source.GroupSource;
 import com.linecorp.bot.model.event.source.RoomSource;
 import com.linecorp.bot.model.event.source.Source;
-import com.linecorp.bot.model.group.GroupMemberCountResponse;
-import com.linecorp.bot.model.group.GroupSummaryResponse;
-import com.linecorp.bot.model.message.AudioMessage;
-import com.linecorp.bot.model.message.ImageMessage;
-import com.linecorp.bot.model.message.ImagemapMessage;
-import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
-import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
-import com.linecorp.bot.model.message.VideoMessage;
-import com.linecorp.bot.model.message.imagemap.ImagemapArea;
-import com.linecorp.bot.model.message.imagemap.ImagemapBaseSize;
-import com.linecorp.bot.model.message.imagemap.ImagemapExternalLink;
-import com.linecorp.bot.model.message.imagemap.ImagemapVideo;
-import com.linecorp.bot.model.message.imagemap.MessageImagemapAction;
-import com.linecorp.bot.model.message.imagemap.URIImagemapAction;
-import com.linecorp.bot.model.message.sender.Sender;
-import com.linecorp.bot.model.message.template.ButtonsTemplate;
-import com.linecorp.bot.model.message.template.CarouselColumn;
-import com.linecorp.bot.model.message.template.CarouselTemplate;
-import com.linecorp.bot.model.message.template.ConfirmTemplate;
-import com.linecorp.bot.model.message.template.ImageCarouselColumn;
-import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
 import com.linecorp.bot.model.response.BotApiResponse;
-import com.linecorp.bot.model.room.RoomMemberCountResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
-
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UncheckedIOException;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
+import static java.util.Collections.singletonList;
 
 @Slf4j
 @LineMessageHandler
@@ -115,6 +81,10 @@ public class KitchenSinkController {
 
     @Autowired
     private LineBlobClient lineBlobClient;
+
+    private static List<String> sentence = new ArrayList<>(
+            Arrays.asList(" 很棒喔! 第一天啟動了，要繼續維持下去!", " 好的開始，是成功的一半! 加油!", " Well begun is half done. GO! GO!"));
+    ;;
 
     @EventMapping
     public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
@@ -370,12 +340,14 @@ public class KitchenSinkController {
     private void handleTextContent(final String replyToken, final Event event, final TextMessageContent content) throws Exception {
         final String text = content.getText();
         int item = 0;
-        if (text.contains("運動")) {
+        if (text.contains("運動") || text.contains("快走") || text.contains("跑步") || text.contains("跳繩") || text.contains("核心") || text.contains("瑜珈")) {
             item = 1;
         } else if (text.equals("byetaohelper")) {
             item = 999;
         } else if (text.contains("testEcho")) {
             item = 2;
+        } else if (text.contains("D1")) {
+            item = 3;
         }
 
         log.info("Got text message from replyToken:{}: text:{} emojis:{}", replyToken, text, content.getEmojis());
@@ -458,6 +430,27 @@ public class KitchenSinkController {
                 log.info("Returns echo message {}: {}", replyToken, text);
                 this.replyText(replyToken, text);
                 break;
+            case 3 : {
+                final String userId = event.getSource().getUserId();
+                if (userId != null) {
+                    if (event.getSource() instanceof GroupSource) {
+                        lineMessagingClient
+                                .getGroupMemberProfile(((GroupSource) event.getSource()).getGroupId(), userId)
+                                .whenComplete((profile, throwable) -> {
+                                    if (throwable != null) {
+                                        this.replyText(replyToken, throwable.getMessage());
+                                        return;
+                                    }
+
+                                    this.reply(replyToken,
+                                            TextMessage.builder()
+                                                    .text(profile.getDisplayName() + getBeginning())
+                                                    .build());
+                                });
+                    }
+                }
+                break;
+            }
             default:
                 log.info("Unknown message {}", text);
                 break;
@@ -511,5 +504,13 @@ public class KitchenSinkController {
     private static class DownloadedContent {
         Path path;
         URI uri;
+    }
+
+    private String getBeginning() {
+        Random rand = new Random();
+        int upperbound = sentence.size();
+        int random = rand.nextInt(upperbound);
+
+        return sentence.get(random);
     }
 }
