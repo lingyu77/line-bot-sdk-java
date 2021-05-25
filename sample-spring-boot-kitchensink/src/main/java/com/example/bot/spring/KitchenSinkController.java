@@ -64,7 +64,6 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -84,22 +83,11 @@ public class KitchenSinkController {
     @Autowired
     private LineBlobClient lineBlobClient;
 
-    private static List<String> sentence = new ArrayList<>(
+    private static final List<String> sentence = new ArrayList<>(
             Arrays.asList(" 很棒喔! 第一天啟動了，要繼續維持下去!", " 好的開始，是成功的一半! 加油!", " Well begun is half done. GO! GO!"));
 
-    private static Map<String, String> nickname = new HashMap<String, String>() {{
-        put("ichih", "學長");
-        put("葉靜芬", "葉講師");
-        put("溶", "書溶");
-        put("新芳", "祁講師");
-        put("sophia 真 楊講師", "楊講師");
-        put("鄭鴻儒", "鴻儒");
-        put("Joyce 螢軒", "螢軒");
-        put("吳佳鴻", "佳鴻");
-        put("Shih When 王施雯", "施雯");
-        put("楊佩儒", "佩儒");
-        put("陳勁源", "勁源");
-    }};
+    private static final Map<String, String> nickname = Map.of("葉靜芬", "葉講師", "溶", "書溶", "新芳", "祁講師"
+            ,"sophia 真 楊講師", "楊講師","鄭鴻儒", "鴻儒", "Joyce 螢軒", "螢軒", "吳佳鴻", "佳鴻", "Shih When 王施雯", "施雯", "楊佩儒", "佩儒");
 
     @EventMapping
     public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
@@ -355,8 +343,8 @@ public class KitchenSinkController {
     private void handleTextContent(final String replyToken, final Event event, final TextMessageContent content) throws Exception {
         final String text = content.getText();
         int item = 0;
-        if (text.contains("運動") || text.contains("快走") || text.contains("跑步") || text.contains("跳繩") || text.contains("核心") || text.contains("瑜珈") || text.contains("拉筋")
-        || text.contains("高擡腳") || text.contains("健身") || text.contains("exercise") || text.contains("深蹲") || text.contains("重訓") || text.contains("仰臥起坐")|| text.contains("健腹") || text.contains("啞鈴")) {
+        if ((text.contains("/") || text.contains("D")) && (text.contains("運動") || text.contains("快走") || text.contains("跑步") || text.contains("跳繩") || text.contains("核心") || text.contains("瑜珈") || text.contains("拉筋")
+        || text.contains("高擡腳") || text.contains("健身") || text.contains("exercise") || text.contains("深蹲") || text.contains("重訓") || text.contains("仰臥起坐")|| text.contains("健腹") || text.contains("啞鈴"))) {
             item = 1;
         } else if (text.equals("byetaohelper")) {
             item = 999;
