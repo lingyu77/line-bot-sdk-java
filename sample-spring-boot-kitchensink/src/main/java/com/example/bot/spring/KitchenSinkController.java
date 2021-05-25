@@ -355,7 +355,8 @@ public class KitchenSinkController {
     private void handleTextContent(final String replyToken, final Event event, final TextMessageContent content) throws Exception {
         final String text = content.getText();
         int item = 0;
-        if (text.contains("運動") || text.contains("快走") || text.contains("跑步") || text.contains("跳繩") || text.contains("核心") || text.contains("瑜珈")) {
+        if (text.contains("運動") || text.contains("快走") || text.contains("跑步") || text.contains("跳繩") || text.contains("核心") || text.contains("瑜珈") || text.contains("拉筋")
+        || text.contains("高擡腳") || text.contains("健身") || text.contains("exercise") || text.contains("深蹲") || text.contains("重訓") || text.contains("仰臥起坐")|| text.contains("健腹") || text.contains("啞鈴")) {
             item = 1;
         } else if (text.equals("byetaohelper")) {
             item = 999;
@@ -392,7 +393,7 @@ public class KitchenSinkController {
 
                                     this.reply(replyToken,
                                             TextMessage.builder()
-                                                    .text(this.getNickname(profile.getDisplayName()) + " 棒棒! 堅持30天，完成目標了")
+                                                    .text("棒棒! 堅持30天，完成目標了")
                                                     .build());
                                 });
                     }
