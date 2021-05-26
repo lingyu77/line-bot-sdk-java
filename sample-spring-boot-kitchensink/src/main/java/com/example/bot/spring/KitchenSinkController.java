@@ -344,7 +344,10 @@ public class KitchenSinkController {
     private void handleTextContent(final String replyToken, final Event event, final TextMessageContent content) throws Exception {
         final String text = content.getText();
         int item = 0;
-        if ((text.contains("/") || text.contains("D")) && (text.contains("運動") || text.contains("快走") || text.contains("跑步") || text.contains("跳繩") || text.contains("核心") || text.contains("瑜珈") || text.contains("拉筋")
+
+        if ((text.contains("/") || text.contains("D")) && (text.contains("訓文"))) {
+            item = 31;
+        } else if ((text.contains("/") || text.contains("D")) && (text.contains("運動") || text.contains("快走") || text.contains("跑步") || text.contains("跳繩") || text.contains("核心") || text.contains("瑜珈") || text.contains("拉筋")
         || text.contains("高擡腳") || text.contains("健身") || text.contains("exercise") || text.contains("深蹲") || text.contains("重訓") || text.contains("仰臥起坐")|| text.contains("健腹") || text.contains("啞鈴"))) {
             item = 1;
         } else if (text.equals("byetaohelper")) {
@@ -358,7 +361,7 @@ public class KitchenSinkController {
                 item = 4;
             } else if (text.contains("晚安囉")) {
                 item = 5;
-            } else if (text.contains("厲害") || text.contains("好棒")  || text.contains("讚")) {
+            } else if (text.contains("厲害") || text.contains("好棒")  || text.contains("讚") || text.contains("酷")) {
                 item = 6;
             }
         } else if (text.contains("D30") || text.contains("D 30") || text.contains("d30") && text.contains("分鐘")) {
@@ -367,6 +370,14 @@ public class KitchenSinkController {
 
         log.info("Got text message from replyToken:{}: text:{} emojis:{} item {}", replyToken, text, content.getEmojis(), item);
         switch (item) {
+            case 31:
+            {
+                this.reply(replyToken,
+                        TextMessage.builder()
+                                .text("今天有閱讀訓文，很棒喔! 想聽心得，期待~~ >0< ")
+                                .build());
+                break;
+            }
             case 30:
             {
                 final String userId = event.getSource().getUserId();
