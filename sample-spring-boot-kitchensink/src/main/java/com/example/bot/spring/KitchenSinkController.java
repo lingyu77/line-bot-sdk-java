@@ -365,7 +365,7 @@ public class KitchenSinkController {
             item = 30;
         }
 
-        log.info("Got text message from replyToken:{}: text:{} emojis:{}", replyToken, text, content.getEmojis());
+        log.info("Got text message from replyToken:{}: text:{} emojis:{} item {}", replyToken, text, content.getEmojis(), item);
         switch (item) {
             case 30:
             {
