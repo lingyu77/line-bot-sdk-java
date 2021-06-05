@@ -354,8 +354,6 @@ public class KitchenSinkController {
             item = 999;
         } else if (text.contains("testEcho")) {
             item = 2;
-        } else if (text.contains("D1")) {
-            item = 3;
         } else if (text.contains("小道親")) {
             if (text.contains("早安~")) {
                 item = 4;
