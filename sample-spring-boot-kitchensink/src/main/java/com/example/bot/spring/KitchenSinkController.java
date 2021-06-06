@@ -96,10 +96,14 @@ public class KitchenSinkController {
     static {
         nickname.put("葉靜芬", "葉講師");
         nickname.put("溶", "書溶");
-        nickname.put("泠伃", "Kelly");
+        nickname.put("新芳", "祁講師");
+        nickname.put("sophia 真 楊講師", "楊講師");
+        nickname.put("鄭鴻儒", "鴻儒");
+        nickname.put("Joyce 螢軒", "螢軒");
+        nickname.put("吳佳鴻", "佳鴻");
+        nickname.put("Shih When 王施雯", "施雯");
+        nickname.put("楊佩儒", "佩儒");
     }
-//    Map.entry("葉靜芬", "葉講師", "溶", "書溶", "新芳", "祁講師"
-//            ,"sophia 真 楊講師", "楊講師","鄭鴻儒", "鴻儒", "Joyce 螢軒", "螢軒", "吳佳鴻", "佳鴻", "Shih When 王施雯", "施雯", "楊佩儒", "佩儒");
 
     @EventMapping
     public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
@@ -386,7 +390,7 @@ public class KitchenSinkController {
             {
                 this.reply(replyToken,
                         TextMessage.builder()
-                                .text("很棒喔! 今天有持續了單字，要繼續加油喔~")
+                                .text("很棒喔! 今天有持續背單字，要繼續加油喔~")
                                 .build());
                 break;
             }
