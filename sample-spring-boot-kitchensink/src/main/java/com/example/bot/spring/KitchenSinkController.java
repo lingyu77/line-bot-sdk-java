@@ -16,6 +16,7 @@
 
 package com.example.bot.spring;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.io.ByteStreams;
 import com.linecorp.bot.client.LineBlobClient;
 import com.linecorp.bot.client.LineMessagingClient;
@@ -91,12 +92,12 @@ public class KitchenSinkController {
                     , " Success is the sum of small efforts, repeated day-in and day-out."
                     , " Keep up the good work."));
 
-    private static final Map<String, String> nickname = new HashMap<String, String>() {{
-        put("葉靜芬", "葉講師");
-        put("溶", "書溶");
-        put("新芳", "祁講師");
-        put("泠伃", "Kelly");
-    }};
+    private static final Map<String, String> nickname = new HashMap<>();
+    static {
+        nickname.put("葉靜芬", "葉講師");
+        nickname.put("溶", "書溶");
+        nickname.put("泠伃", "Kelly");
+    }
 //    Map.entry("葉靜芬", "葉講師", "溶", "書溶", "新芳", "祁講師"
 //            ,"sophia 真 楊講師", "楊講師","鄭鴻儒", "鴻儒", "Joyce 螢軒", "螢軒", "吳佳鴻", "佳鴻", "Shih When 王施雯", "施雯", "楊佩儒", "佩儒");
 
@@ -641,6 +642,7 @@ public class KitchenSinkController {
     }
 
     private String getNickname(final String displayName) {
+        log.info("displayName {}", displayName);
         return nickname.getOrDefault(displayName, displayName);
     }
 }
