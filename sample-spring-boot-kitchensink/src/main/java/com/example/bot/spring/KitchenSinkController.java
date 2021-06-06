@@ -85,9 +85,19 @@ public class KitchenSinkController {
     private LineBlobClient lineBlobClient;
 
     private static final List<String> sentence = new ArrayList<>(
-            Arrays.asList(" 很棒喔! 第一天啟動了，要繼續維持下去!", " 好的開始，是成功的一半! 加油!", " Well begun is half done. GO! GO!"));
+            Arrays.asList("Awesome! Keep going!"
+                    , " Good job! Practice makes perfect."
+                    , " It does not matter how slowly you go as long as you do not stop."
+                    , " Success is the sum of small efforts, repeated day-in and day-out."
+                    , " Keep up the good work."));
 
-//    private static final Map<String, String> nickname = Map.of("葉靜芬", "葉講師", "溶", "書溶", "新芳", "祁講師"
+    private static final Map<String, String> nickname = new HashMap<String, String>() {{
+        put("葉靜芬", "葉講師");
+        put("溶", "書溶");
+        put("新芳", "祁講師");
+        put("泠伃", "Kelly");
+    }};
+//    Map.entry("葉靜芬", "葉講師", "溶", "書溶", "新芳", "祁講師"
 //            ,"sophia 真 楊講師", "楊講師","鄭鴻儒", "鴻儒", "Joyce 螢軒", "螢軒", "吳佳鴻", "佳鴻", "Shih When 王施雯", "施雯", "楊佩儒", "佩儒");
 
     @EventMapping
@@ -345,12 +355,15 @@ public class KitchenSinkController {
         final String text = content.getText();
         int item = 0;
 
-        if ((text.contains("/") || text.contains("D")) && (text.contains("訓文"))) {
+        if ((text.contains("/") || text.contains("D")) && (text.contains("單字"))) {
             item = 31;
-        } else if ((text.contains("/") || text.contains("D")) && (text.contains("運動") || text.contains("快走") || text.contains("跑步") || text.contains("跳繩") || text.contains("核心") || text.contains("瑜珈") || text.contains("拉筋")
-        || text.contains("高擡腳") || text.contains("健身") || text.contains("exercise") || text.contains("深蹲") || text.contains("重訓") || text.contains("仰臥起坐")|| text.contains("健腹") || text.contains("啞鈴"))) {
+        } else if ((text.contains("/") || text.contains("D")) && (text.contains("運動") || text.contains("快走") || text.contains("跑步") || text.contains("跳繩") || text.contains("核心") || text.contains("瑜珈") || text.contains("拉筋") || text.contains("Tabata") || text.contains("叩首")
+        || text.contains("高擡腳") || text.contains("健身") || text.contains("exercise") || text.contains("深蹲") || text.contains("重訓") || text.contains("仰臥起坐") || text.contains("伏地挺身") || text.contains("健腹") || text.contains("啞鈴") || text.contains("健走"))) {
             item = 1;
-        } else if (text.equals("byetaohelper")) {
+        } else if ((text.contains("/") || text.contains("D")) && (text.contains("英文"))) {
+            item = 3;
+        }
+        else if (text.equals("byetaohelper")) {
             item = 999;
         } else if (text.contains("testEcho")) {
             item = 2;
@@ -372,7 +385,7 @@ public class KitchenSinkController {
             {
                 this.reply(replyToken,
                         TextMessage.builder()
-                                .text("今天有閱讀訓文，很棒喔! 想聽心得，期待~~ >0< ")
+                                .text("很棒喔! 今天有持續了單字，要繼續加油喔~")
                                 .build());
                 break;
             }
@@ -513,6 +526,10 @@ public class KitchenSinkController {
                         packageId = "11539";
                         stickerId = "52114117";
                         break;
+                    case 11:
+                        packageId = "11538";
+                        stickerId = "51626503";
+                        break;
                     default:
                         packageId = "446";
                         stickerId = "2000";
@@ -553,7 +570,7 @@ public class KitchenSinkController {
 
                                     this.reply(replyToken,
                                             TextMessage.builder()
-                                                    .text(this.getNickname(profile.getDisplayName()) + getBeginning())
+                                                    .text(this.getNickname(profile.getDisplayName()) + getEnglish())
                                                     .build());
                                 });
                     }
@@ -615,7 +632,7 @@ public class KitchenSinkController {
         URI uri;
     }
 
-    private String getBeginning() {
+    private String getEnglish() {
         Random rand = new Random();
         int upperbound = sentence.size();
         int random = rand.nextInt(upperbound);
@@ -624,7 +641,6 @@ public class KitchenSinkController {
     }
 
     private String getNickname(final String displayName) {
-        return displayName;
-        //return nickname.getOrDefault(displayName, displayName);
+        return nickname.getOrDefault(displayName, displayName);
     }
 }
