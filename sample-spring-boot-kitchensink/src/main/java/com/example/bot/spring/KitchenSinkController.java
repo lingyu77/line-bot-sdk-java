@@ -380,8 +380,8 @@ public class KitchenSinkController {
             } else if (text.contains("厲害") || text.contains("好棒")  || text.contains("讚") || text.contains("酷")) {
                 item = 6;
             }
-        } else if (text.contains("D30") || text.contains("D 30") || text.contains("d30") && text.contains("分鐘")) {
-            item = 30;
+        } else if (text.contains("D15 ")) {
+            item = 15;
         }
 
         log.info("Got text message from replyToken:{}: text:{} emojis:{} item {}", replyToken, text, content.getEmojis(), item);
@@ -394,7 +394,7 @@ public class KitchenSinkController {
                                 .build());
                 break;
             }
-            case 30:
+            case 15:
             {
                 final String userId = event.getSource().getUserId();
                 if (userId != null) {
@@ -409,7 +409,7 @@ public class KitchenSinkController {
 
                                     this.reply(replyToken,
                                             TextMessage.builder()
-                                                    .text("棒棒! 堅持30天，完成目標了")
+                                                    .text(this.getNickname(profile.getDisplayName()) + "棒棒! 堅持15天了!")
                                                     .build());
                                 });
                     }
