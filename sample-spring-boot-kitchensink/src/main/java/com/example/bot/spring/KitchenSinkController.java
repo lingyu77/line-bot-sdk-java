@@ -384,7 +384,7 @@ public class KitchenSinkController {
         } else if (text.contains("D15 ")) {
             item = 15;
         } else if ((text.contains("/") || text.contains("D")) && (text.contains("善財童子五十三參的故事"))) {
-            //item = 100;
+            item = 100;
         }
 
         log.info("Got text message from replyToken:{}: text:{} emojis:{} item {}", replyToken, text, content.getEmojis(), item);
