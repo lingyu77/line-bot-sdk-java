@@ -393,8 +393,8 @@ public class KitchenSinkController {
             {
                 this.reply(replyToken,
                         ImageMessage.builder()
-                                .originalContentUrl(URI.create("https://img.shoplineapp.com/media/image_clips/5a448bb2451d8f718c0016ac/original.?1514441647"))
-                                .previewImageUrl(URI.create("https://img.shoplineapp.com/media/image_clips/5a448bb2451d8f718c0016ac/original.?1514441647"))
+                                .originalContentUrl(URI.create("http://www.theregentstore.com/public/products/chinese/6619789866578052001.jpg"))
+                                .previewImageUrl(URI.create("http://www.theregentstore.com/public/products/chinese/6619789866578052001.jpg"))
                                 .build());
 
                 break;
