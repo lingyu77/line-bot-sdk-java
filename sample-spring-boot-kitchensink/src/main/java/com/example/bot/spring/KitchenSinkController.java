@@ -44,6 +44,7 @@ import com.linecorp.bot.model.event.message.VideoMessageContent;
 import com.linecorp.bot.model.event.source.GroupSource;
 import com.linecorp.bot.model.event.source.RoomSource;
 import com.linecorp.bot.model.event.source.Source;
+import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
@@ -382,10 +383,23 @@ public class KitchenSinkController {
             }
         } else if (text.contains("D15 ")) {
             item = 15;
+        } else if ((text.contains("/") || text.contains("D")) && (text.contains("善財童子五十三參的故事"))) {
+            item = 100;
+
         }
 
         log.info("Got text message from replyToken:{}: text:{} emojis:{} item {}", replyToken, text, content.getEmojis(), item);
         switch (item) {
+            case 100:
+            {
+                this.reply(replyToken,
+                        ImageMessage.builder()
+                                .originalContentUrl(new URI("https://img.shoplineapp.com/media/second_clips/5a448bb2451d8f718c0016ac/landscape.jpg?1514445157"))
+                                .previewImageUrl(new URI("https://img.shoplineapp.com/media/second_clips/5a448bb2451d8f718c0016ac/landscape.jpg?1514445157"))
+                                .build());
+
+                break;
+            }
             case 31:
             {
                 this.reply(replyToken,
