@@ -394,8 +394,8 @@ public class KitchenSinkController {
             {
                 this.reply(replyToken,
                         ImageMessage.builder()
-                                .originalContentUrl(new URI("https://img.shoplineapp.com/media/second_clips/5a448bb2451d8f718c0016ac/landscape.jpg?1514445157"))
-                                .previewImageUrl(new URI("https://img.shoplineapp.com/media/second_clips/5a448bb2451d8f718c0016ac/landscape.jpg?1514445157"))
+                                .originalContentUrl(URI.create("https://img.shoplineapp.com/media/second_clips/5a448bb2451d8f718c0016ac/landscape.jpg?1514445157"))
+                                .previewImageUrl(URI.create("https://img.shoplineapp.com/media/second_clips/5a448bb2451d8f718c0016ac/landscape.jpg?1514445157"))
                                 .build());
 
                 break;
